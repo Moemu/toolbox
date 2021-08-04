@@ -4,19 +4,28 @@ import os
 import win32api
 import win32con
 
+ver='1.1'
+
 print('欢迎使用沐の工具箱')
-print('版本v1.0 作者:WhitemuTeam')
+print('版本',ver,' 作者:WhitemuTeam')
 print('使用前请确保您以管理员打开本程序，不然部分程序可能出现无法按预期运行的情况')
 print('----------菜单栏----------')
-print('0.常见病毒攻击修复')
-print('1.收集收集蓝屏dmp文件')
-print('2.Windows Update菜单')
-print('3.自动系统扫描')
+print('1.常见病毒攻击修复')
+print('2.收集收集蓝屏dmp文件')
+print('3.Windows Update菜单')
+print('4.自动系统扫描')
+print('0.检查更新')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
 
 if a==0:
+    print('当前的版本：',ver)
+    import requests
+    url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/ver.txt'
+    txt = requests.get(url)
+    print(txt)
+if a==1:
     print('选项：常见病毒修复')
     print('----------菜单栏----------')
     print('0.显示被隐藏的关机，重启等按钮')
@@ -96,12 +105,12 @@ if a==0:
 
 #收集蓝屏dmp文件（https://answers.microsoft.com/zh-hans/windows/forum/all/page-fault-in-nonpaged-area/bcb7eafc-abaf-44a3-b552-d243f1b432fa）
 #你需要提前打开【控制面板】>【系统】>【高级系统设置】>【高级】>【启动和故障恢复】>【设置】>写入调试信息 > 选择【小内存转储（256KB）】>路径选择【默认】，【确定】并重启计算机
-if a==1:
+if a==2:
     os.system('copy %SystemRoot%\minidump %systemdrive%\dmp')
     print('dmp文件已存储到系统盘下的dmp文件夹中')
     b=int(input('按任意键退出'))
 
-if a==2:
+if a==3:
     print('Windows Update菜单')
     print('----------菜单栏----------')
     print('1.修复Windows10无法更新的问题')
@@ -199,11 +208,11 @@ if a==2:
         input('按任意键退出')
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
-if a==3:
+if a==4:
     os.system('Dism /Online /Cleanup-Image /CheckHealth')
     os.system('Dism /Online /Cleanup-Image /ScanHealth')
     os.system('Dism /Online /Cleanup-Image /RestoreHealth')
     os.system('sfc /scannow')
     print('如果出现”有一些文件无法修复“，请重新运行本程序')
-    print('重启你的电脑吧~')
+    input('重启你的电脑吧~')
 
