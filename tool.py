@@ -11,9 +11,7 @@ print('----------菜单栏----------')
 print('0.常见病毒攻击修复')
 print('1.收集收集蓝屏dmp文件')
 print('2.Windows Update菜单')
-print('2.修复Windows无法更新的问题')
-print('3.重置 Windows 更新组件')
-print('4.自动系统扫描')
+print('3.自动系统扫描')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
@@ -201,10 +199,11 @@ if a==2:
         input('按任意键退出')
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
-if a==4:
+if a==3:
     os.system('Dism /Online /Cleanup-Image /CheckHealth')
     os.system('Dism /Online /Cleanup-Image /ScanHealth')
     os.system('Dism /Online /Cleanup-Image /RestoreHealth')
     os.system('sfc /scannow')
     print('如果出现”有一些文件无法修复“，请重新运行本程序')
     print('重启你的电脑吧~')
+
