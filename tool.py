@@ -10,14 +10,13 @@ print('使用前请确保您以管理员打开本程序，不然部分程序可�
 print('----------菜单栏----------')
 print('0.常见病毒攻击修复')
 print('1.收集收集蓝屏dmp文件')
-print('2.Windows Updat菜单')
+print('2.Windows Update菜单')
 print('2.修复Windows无法更新的问题')
 print('3.重置 Windows 更新组件')
 print('4.自动系统扫描')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
-print(a)
 
 if a==0:
     print('选项：常见病毒修复')
@@ -102,7 +101,7 @@ if a==0:
 if a==1:
     os.system('copy %SystemRoot%\minidump %systemdrive%\dmp')
     print('dmp文件已存储到系统盘下的dmp文件夹中')
-    input('按任意键退出')
+    b=int(input('按任意键退出'))
 
 if a==2:
     print('Windows Update菜单')
@@ -141,7 +140,7 @@ if a==2:
         os.system('net stop wuauserv')
         os.system('net stop cryptsvc')
         #删除 qmgr*.dat 文件
-        os.system(r'Del "%ALLUSERSPROFILE%\Application Data\Micr    osoft\Network\Downloader\qmgr*.dat"')
+        os.system(r'Del "%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat"')
         #重新注册 BITS 文件和 Windows 更新 文件
         os.system('cd /d %windir%\system32')
         os.system('regsvr32.exe /s atl.dll')
@@ -189,15 +188,17 @@ if a==2:
         print('重启你的电脑吧~')
     if b==3:
         #停止并禁用Windows Update服务
-        os.system('net stop wuausery')
-        os.system('sc config wuausery start=disabled')
+        #os.system('net stop wuauserv')
+        #os.system('sc config wuauserv start=disabled')
         #注册表修改(https://zhuanlan.zhihu.com/p/116531539)
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows',0, win32con.KEY_ALL_ACCESS)
         win32api.RegCreateKey(key,'WindowsUpdate')
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate',0, win32con.KEY_ALL_ACCESS)
         win32api.RegCreateKey(key,'AU')
-        win32api.RegSetValue(key,'AUOptions',win32con.REG_DWORD,2) #通知下载和自动安装
-        win32api.RegSetValue(key,'NoAutoUpdate',win32con.REG_DWORD,1) #禁止自动更新
+        key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU',0, win32con.KEY_ALL_ACCESS)
+        win32api.RegSetValueEx(key,'AUOptions',0,win32con.REG_DWORD,2) #通知下载和自动安装
+        win32api.RegSetValueEx(key,'NoAutoUpdate',0,win32con.REG_DWORD,1) #禁止自动更新
+        input('按任意键退出')
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
 if a==4:
