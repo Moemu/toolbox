@@ -8,7 +8,13 @@
 
 修复Windows Update无法更新的问题（包括但不限于重置 Windows 更新组件）
 
+禁止Windows自动更新（切换至手动更新）
+
+关闭Windows Defender
+
 自动系统扫描（修复部分系统文件缺失）
+
+检查更新并获取最新的沐の工具箱
 
 清楚的注释
 
@@ -46,3 +52,4 @@ py tool.py
 
 作者：WhitemuTeam
 
+版本：1.2

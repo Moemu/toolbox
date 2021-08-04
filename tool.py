@@ -4,7 +4,7 @@ import os
 import win32api
 import win32con
 
-ver='1.1'
+ver='1.2'
 
 print('欢迎使用沐の工具箱')
 print('版本',ver,' 作者:WhitemuTeam')
@@ -14,17 +14,44 @@ print('1.常见病毒攻击修复')
 print('2.收集收集蓝屏dmp文件')
 print('3.Windows Update菜单')
 print('4.自动系统扫描')
+print('5.关闭Windows Defender')
 print('0.检查更新')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
 
+#检查版本并更新
 if a==0:
     print('当前的版本：',ver)
+    #获取最新的版本号
     import requests
     url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/ver.txt'
     txt = requests.get(url)
-    print(txt)
+    open('temp.txt', 'wb').write(txt.content)
+    with open("temp.txt", "r") as f:  # 打开文件
+        newver = f.read()  # 读取文件
+    print('最新的版本是:',newver)
+    if newver==ver:
+        print('您已是最新版本，不需要升级')
+    else:
+        #更新tool.py
+        url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
+        newpy = requests.get(url)
+        newname = 'tool(v'+newver+').py'
+        open(newname, 'wb').write(newpy.content)
+        print('已下载新版本，名称为：',newname)
+        #更新ver.txt
+        newvertxt=open('ver.txt','w')
+        print(newver,file=newvertxt)
+        print('更新ver.txt完成')
+        #更新readme.md
+        url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
+        newmd = requests.get(url)
+        open('readme.md', 'wb').write(newmd.content)
+        print('更新readme.md完成')
+        print('更新完成')
+    os.remove('temp.txt')
+    input('按任意键退出')
 if a==1:
     print('选项：常见病毒修复')
     print('----------菜单栏----------')
@@ -139,7 +166,7 @@ if a==3:
         os.system('net start bits')
         os.system('net start msiserver')
         os.system('netsh winsock reset')
-        print('请重启你的Windows然后再次尝试更新吧~')
+        input('请重启你的Windows然后再次尝试更新吧~')
     if b==2:
         #重置 Windows 更新组件（https://docs.microsoft.com/zh-cn/windows/deployment/update/windows-update-resources）
         #停止相关服务
@@ -192,7 +219,7 @@ if a==3:
         os.system('net start bits')
         os.system('net start wuauserv')
         os.system('net start cryptsvc')
-        print('重启你的电脑吧~')
+        input('重启你的电脑吧~')
     if b==3:
         #停止并禁用Windows Update服务
         #os.system('net stop wuauserv')
@@ -216,3 +243,10 @@ if a==4:
     print('如果出现”有一些文件无法修复“，请重新运行本程序')
     input('重启你的电脑吧~')
 
+#关闭Windows Defender(https://cloud.tencent.com/developer/article/1674518)
+if a==5:
+    key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows Defender',0, win32con.KEY_ALL_ACCESS)
+    win32api.RegSetValueEx(key,'DisableAntiSpyware',0,win32con.REG_DWORD,1)
+    key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SYSTEM\CurrentControlSet\Services\SecurityHealthService',0, win32con.KEY_ALL_ACCESS)
+    win32api.RegSetValueEx(key,'Start',0,win32con.REG_DWORD,4)
+    input('按任意键退出')
