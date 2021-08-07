@@ -1,10 +1,11 @@
 #By WhitemuTeam
 #请使用管理员方式运行此程序
 import os
+import sys
 import win32api
 import win32con
 
-ver='1.2.5'
+ver='1.3'
 
 print('欢迎使用沐の工具箱')
 print('版本',ver,' 作者:WhitemuTeam')
@@ -15,11 +16,14 @@ print('2.收集收集蓝屏dmp文件')
 print('3.Windows Update菜单')
 print('4.自动系统扫描')
 print('5.关闭Windows Defender')
+print('9.退出')
 print('0.检查更新')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
 
+if a==9:
+    sys.exit ()
 #检查版本并更新
 if a==0:
     print('当前的版本：',ver)
@@ -37,7 +41,9 @@ if a==0:
         #更新tool.py
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
         newpy = requests.get(url)
+        newver = '1.2.5'
         newname = 'tool(v'+newver+').py'
+        print(newname)
         open(newname, 'wb').write(newpy.content)
         print('已下载新版本，名称为：',newname)
         #更新ver.txt
@@ -51,7 +57,7 @@ if a==0:
         print('更新readme.md完成')
         print('更新完成')
     os.remove('temp.txt')
-    input('更改已完成，按任意键退出')
+    input('更改已完成，按任意键返回')
 if a==1:
     print('选项：常见病毒修复')
     print('----------菜单栏----------')
@@ -80,19 +86,19 @@ if a==1:
         win32api.RegSetValueEx(key,'value',0,win32con.REG_DWORD,0)
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\PolicyManager\default\Start\HideLock',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'value',0,win32con.REG_DWORD,0)
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
     if b==1:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableTaskmgr',0,win32con.REG_DWORD,0)
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
     if b==2:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableRegistryTools',0,win32con.REG_DWORD,0)
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
     if b==3:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\Policies\Microsoft\Windows\System',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableCMD',0,win32con.REG_DWORD,0)
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
     if b==4:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\MICROSOFT\WINDOWS\CURRENTVERSION\POLICIES\EXPLORER',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'RESTRICTRUN',0,win32con.REG_DWORD,0)
@@ -128,14 +134,14 @@ if a==1:
         win32api.RegSetValueEx(key,'DisabledHotkeys',0,win32con.REG_SZ,'')
         os.system('taskkill /IM explorer.exe')
         os.system('explorer.exe')
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
 
 #收集蓝屏dmp文件（https://answers.microsoft.com/zh-hans/windows/forum/all/page-fault-in-nonpaged-area/bcb7eafc-abaf-44a3-b552-d243f1b432fa）
 #你需要提前打开【控制面板】>【系统】>【高级系统设置】>【高级】>【启动和故障恢复】>【设置】>写入调试信息 > 选择【小内存转储（256KB）】>路径选择【默认】，【确定】并重启计算机
 if a==2:
     os.system('copy %SystemRoot%\minidump %systemdrive%\dmp')
     print('dmp文件已存储到系统盘下的dmp文件夹中')
-    b=int(input('更改已完成，按任意键退出'))
+    b=int(input('更改已完成，按任意键返回'))
 
 if a==3:
     print('Windows Update菜单')
@@ -232,7 +238,7 @@ if a==3:
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'AUOptions',0,win32con.REG_DWORD,2) #通知下载和自动安装
         win32api.RegSetValueEx(key,'NoAutoUpdate',0,win32con.REG_DWORD,1) #禁止自动更新
-        input('更改已完成，按任意键退出')
+        input('更改已完成，按任意键返回')
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
 if a==4:
@@ -255,4 +261,9 @@ if a==5:
     win32api.RegSetValueEx(key,'DisableScanOnRealtimeEnable',0,win32con.REG_DWORD,1)
     key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SYSTEM\CurrentControlSet\Services\SecurityHealthService',0, win32con.KEY_ALL_ACCESS)
     win32api.RegSetValueEx(key,'Start',0,win32con.REG_DWORD,4)
-    input('更改已完成，更改已完成，按任意键退出')
+    input('更改已完成，按任意键返回')
+
+dir=sys.argv[0]
+run='py '+dir
+os.system('cls')
+os.system(run)
