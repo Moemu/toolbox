@@ -37,13 +37,15 @@ if a==0:
     print('最新的版本是:',newver)
     if newver==ver:
         print('您已是最新版本，不需要升级')
+    if newver<ver:
+        print('您已是最新版本，不需要升级')
+        print('请等待jsdelivr刷新')
     else:
         #更新tool.py
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
         newpy = requests.get(url)
         newver = '1.2.5'
         newname = 'tool(v'+newver+').py'
-        print(newname)
         open(newname, 'wb').write(newpy.content)
         print('已下载新版本，名称为：',newname)
         #更新ver.txt
