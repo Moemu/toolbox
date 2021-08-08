@@ -44,13 +44,13 @@ if a==0:
         #更新tool.py
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
         newpy = requests.get(url)
-        newver = '1.2.5'
         newname = 'tool(v'+newver+').py'
         open(newname, 'wb').write(newpy.content)
         print('已下载新版本，名称为：',newname)
         #更新ver.txt
         newvertxt=open('ver.txt','w')
         print(newver,file=newvertxt)
+        newvertxt.close()
         print('更新ver.txt完成')
         #更新readme.md
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
