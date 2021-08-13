@@ -5,8 +5,11 @@ import sys
 import win32api
 import win32con
 import json
+import requests
+import datetime
+from dateutil import parser
 
-ver='1.3.5'
+ver='1.4'
 
 print('欢迎使用沐の工具箱')
 print('版本',ver,' 作者:WhitemuTeam')
@@ -17,27 +20,39 @@ print('2.收集收集蓝屏dmp文件')
 print('3.Windows Update菜单')
 print('4.自动系统扫描')
 print('5.关闭Windows Defender')
+print('6.壁纸主题相关')
 print('9.退出')
 print('0.检查更新')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
 
+def end():
+    dir=sys.argv[0]
+    run='py '+dir
+    os.system('cls')
+    os.system(run)
+
 if a==9:
-    sys.exit ()
+    sys.exit()
+
 #检查版本并更新
-if a==0:
+elif a==0:
     print('当前的版本：',ver)
     #获取最新的版本号
-    import requests
-    url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
-    txt = requests.get(url)
-    open('temp.json', 'wb').write(txt.content)
-    with open('temp.json','r') as t:
-        data=t.read()
-    data2 = json.loads(data)
-    newver=data2['tag_name']
-    print('最新的版本是:',newver)
+    try:
+        url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
+        txt = requests.get(url)
+        open('temp.json', 'wb').write(txt.content)
+        with open('temp.json','r') as t:
+            data=t.read()
+        data2 = json.loads(data)
+        newver=data2['tag_name']
+        print('最新的版本是:',newver)
+    except:
+        print('请检查您的网络是否可用且可以连接到Github服务器')
+        input('按任意键返回')
+        end()
     if newver<=ver:
         print('您已是最新版本，不需要升级')
     else:
@@ -55,7 +70,8 @@ if a==0:
         print('更新完成')
     os.remove('temp.json')
     input('更改已完成，按任意键返回')
-if a==1:
+    end()
+elif a==1:
     print('选项：常见病毒修复')
     print('----------菜单栏----------')
     print('0.显示被隐藏的关机，重启等按钮')
@@ -84,26 +100,32 @@ if a==1:
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\PolicyManager\default\Start\HideLock',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'value',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
+        end()
     if b==1:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableTaskmgr',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
+        end()
     if b==2:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableRegistryTools',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
+        end()
     if b==3:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\Policies\Microsoft\Windows\System',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableCMD',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
+        end()
     if b==4:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\MICROSOFT\WINDOWS\CURRENTVERSION\POLICIES\EXPLORER',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'RESTRICTRUN',0,win32con.REG_DWORD,0)
         input('重启你的电脑以应用更改')
+        end()
     if b==5:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisabledHotkeys',0,win32con.REG_SZ,'')
         input('重启你的电脑以应用更改')
+        end()
     if b==6:
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\PolicyManager\current\device\Start',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'HideShutdown',0,win32con.REG_SZ,'0')
@@ -132,15 +154,17 @@ if a==1:
         os.system('taskkill /IM explorer.exe')
         os.system('explorer.exe')
         input('更改已完成，按任意键返回')
+        end()
 
 #收集蓝屏dmp文件（https://answers.microsoft.com/zh-hans/windows/forum/all/page-fault-in-nonpaged-area/bcb7eafc-abaf-44a3-b552-d243f1b432fa）
 #你需要提前打开【控制面板】>【系统】>【高级系统设置】>【高级】>【启动和故障恢复】>【设置】>写入调试信息 > 选择【小内存转储（256KB）】>路径选择【默认】，【确定】并重启计算机
-if a==2:
+elif a==2:
     os.system('copy %SystemRoot%\minidump %systemdrive%\dmp')
     print('dmp文件已存储到系统盘下的dmp文件夹中')
     b=int(input('更改已完成，按任意键返回'))
+    end()
 
-if a==3:
+elif a==3:
     print('Windows Update菜单')
     print('----------菜单栏----------')
     print('1.修复Windows10无法更新的问题')
@@ -170,6 +194,7 @@ if a==3:
         os.system('net start msiserver')
         os.system('netsh winsock reset')
         input('请重启你的Windows然后再次尝试更新吧~')
+        end()
     if b==2:
         #重置 Windows 更新组件（https://docs.microsoft.com/zh-cn/windows/deployment/update/windows-update-resources）
         #停止相关服务
@@ -223,6 +248,7 @@ if a==3:
         os.system('net start wuauserv')
         os.system('net start cryptsvc')
         input('更改已完成，重启你的电脑吧~')
+        end()
     if b==3:
         #停止并禁用Windows Update服务
         #os.system('net stop wuauserv')
@@ -236,9 +262,10 @@ if a==3:
         win32api.RegSetValueEx(key,'AUOptions',0,win32con.REG_DWORD,2) #通知下载和自动安装
         win32api.RegSetValueEx(key,'NoAutoUpdate',0,win32con.REG_DWORD,1) #禁止自动更新
         input('更改已完成，按任意键返回')
+        end()
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
-if a==4:
+elif a==4:
     os.system('Dism /Online /Cleanup-Image /CheckHealth')
     os.system('Dism /Online /Cleanup-Image /ScanHealth')
     os.system('Dism /Online /Cleanup-Image /RestoreHealth')
@@ -246,9 +273,10 @@ if a==4:
     print('修复完成~')
     print('如果出现“有一些文件无法修复”，请重新运行本程序')
     input('重启你的电脑吧~')
+    end()
 
 #关闭Windows Defender(https://cloud.tencent.com/developer/article/1674518)
-if a==5:
+elif a==5:
     key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows Defender',0, win32con.KEY_ALL_ACCESS)
     win32api.RegSetValueEx(key,'DisableAntiSpyware',0,win32con.REG_DWORD,1)
     win32api.RegCreateKey(key,'Real-Time Protection')
@@ -259,8 +287,92 @@ if a==5:
     key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SYSTEM\CurrentControlSet\Services\SecurityHealthService',0, win32con.KEY_ALL_ACCESS)
     win32api.RegSetValueEx(key,'Start',0,win32con.REG_DWORD,4)
     input('更改已完成，按任意键返回')
+    end()
 
-dir=sys.argv[0]
-run='py '+dir
-os.system('cls')
-os.system(run)
+#壁纸相关
+elif a==6:
+    print('壁纸主题相关')
+    print('----------菜单栏----------')
+    print('0.获取今日Bing每日美图')
+    print('1.获取Windows聚焦美图')
+    print('2.获取当前桌面壁纸')
+    print('3.获取全部Windows10自带壁纸')
+    print('4.获取主题文件（含壁纸）')
+    print('----------菜单栏----------')
+    print('输入序号来做出你的选择吧~')
+    b=int(input('请输入: '))
+    if b==0:
+        print('获取今日Bing每日美图...')
+        print('源码参考：WhitemuTeam/GetBingImg')
+        time = datetime.datetime.now()
+        realtime = time.strftime("%Y-%m-%d")
+        print('今天是:',realtime)
+        print('获取中...')
+        img = requests.get('https://bing.mcloc.cn/api')
+        name = 'Bing('+realtime+').jpg'
+        open(name, 'wb').write(img.content)
+        input('获取成功，按任意键退出')
+        end()
+    if b==1:
+        print('获取Windows聚焦美图')
+        print('复制文件...')
+        filedir=r'C:\Users\%username%\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets\*'
+        dir=os.getcwd()
+        print(dir)
+        ml='cd '+dir
+        os.system('md img')
+        imgdir=dir+'\img'
+        ml='copy '+filedir+' '+imgdir
+        os.system(ml)
+        print('重命名文件...')
+        #遍历文件夹中的所有文件
+        for file in os.listdir(imgdir):
+            newname=file+'.jpg'
+            new_name=file.replace(file,newname)
+            #重命名
+            os.renames(os.path.join(imgdir,file),os.path.join(imgdir,new_name))
+        print('已完成，请到img目录下查看')
+        input('按任意键返回')
+        end()
+    if b==2:
+        print('获取当前桌面壁纸...')
+        print('复制文件...')
+        filedir=r'C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Themes\CachedFiles\*'
+        dir=os.getcwd()
+        print(dir)
+        ml='cd '+dir
+        os.system('md img')
+        imgdir=dir+'\img'
+        ml='copy '+filedir+' '+imgdir
+        os.system(ml)
+        print('已完成，请到img目录下查看')
+        input('按任意键返回')
+        end()
+    if b==3:
+        print('获取全部Windows10自带壁纸...')
+        print('复制文件...')
+        filedir=r'C:\Windows\Web'
+        dir=os.getcwd()
+        print(dir)
+        ml='cd '+dir
+        os.system('md img')
+        imgdir=dir+'\img'
+        ml='Xcopy '+filedir+' '+imgdir+' /E'
+        os.system(ml)
+        print('已完成，请到img目录下查看')
+        input('按任意键返回')
+        end()
+    if b==4:
+        print('获取主题文件...')
+        print('复制文件...')
+        filedir=r'C:\Users\%username%\AppData\Local\Microsoft\Windows\Themes'
+        dir=os.getcwd()
+        print(dir)
+        ml='cd '+dir
+        os.system('md img')
+        imgdir=dir+'\img'
+        ml='Xcopy '+filedir+' '+imgdir+' /E'
+        os.system(ml)
+        print('已完成，请到img目录下查看')
+        input('按任意键返回')
+        end()
