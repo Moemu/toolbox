@@ -4,8 +4,9 @@ import os
 import sys
 import win32api
 import win32con
+import json
 
-ver='1.3'
+ver='1.3.5'
 
 print('欢迎使用沐の工具箱')
 print('版本',ver,' 作者:WhitemuTeam')
@@ -29,17 +30,16 @@ if a==0:
     print('当前的版本：',ver)
     #获取最新的版本号
     import requests
-    url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/ver.txt'
+    url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
     txt = requests.get(url)
-    open('temp.txt', 'wb').write(txt.content)
-    with open("temp.txt", "r") as f:  # 打开文件
-        newver = f.read()  # 读取文件
+    open('temp.json', 'wb').write(txt.content)
+    with open('temp.json','r') as t:
+        data=t.read()
+    data2 = json.loads(data)
+    newver=data2['tag_name']
     print('最新的版本是:',newver)
-    if newver==ver:
+    if newver<=ver:
         print('您已是最新版本，不需要升级')
-    if newver<ver:
-        print('您已是最新版本，不需要升级')
-        print('请等待jsdelivr刷新')
     else:
         #更新tool.py
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
@@ -47,18 +47,13 @@ if a==0:
         newname = 'tool(v'+newver+').py'
         open(newname, 'wb').write(newpy.content)
         print('已下载新版本，名称为：',newname)
-        #更新ver.txt
-        newvertxt=open('ver.txt','w')
-        print(newver,file=newvertxt)
-        newvertxt.close()
-        print('更新ver.txt完成')
         #更新readme.md
         url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
         newmd = requests.get(url)
         open('readme.md', 'wb').write(newmd.content)
         print('更新readme.md完成')
         print('更新完成')
-    os.remove('temp.txt')
+    os.remove('temp.json')
     input('更改已完成，按任意键返回')
 if a==1:
     print('选项：常见病毒修复')
