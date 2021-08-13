@@ -52,4 +52,4 @@ py tool.py
 
 作者：WhitemuTeam
 
-版本：1.2
+版本：1.3
