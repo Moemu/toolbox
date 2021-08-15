@@ -9,20 +9,22 @@ import requests
 import datetime
 from dateutil import parser
 
-ver='1.4'
+ver='1.5'
 
 print('欢迎使用沐の工具箱')
 print('版本',ver,' 作者:WhitemuTeam')
 print('使用前请确保您以管理员打开本程序，不然部分程序可能出现无法按预期运行的情况')
 print('----------菜单栏----------')
+print('0.检查更新')
 print('1.常见病毒攻击修复')
 print('2.收集收集蓝屏dmp文件')
 print('3.Windows Update菜单')
 print('4.自动系统扫描')
 print('5.关闭Windows Defender')
 print('6.壁纸主题相关')
+print('7.激活相关')
 print('9.退出')
-print('0.检查更新')
+print('10.以管理员方式重启tool.py')
 print('----------菜单栏----------')
 print('输入序号来做出你的选择吧~')
 a=int(input('请输入: '))
@@ -36,6 +38,21 @@ def end():
 if a==9:
     sys.exit()
 
+elif a==10:
+    bat=open('UAC.bat','w')
+    dir=os.path.dirname(os.path.abspath(__file__))
+    ml='py '+dir+r'\tool.py'+' & '+'del '+dir+r'\UAC.bat'
+    print('@echo off',file=bat)
+    print('if exist "%SystemRoot%\SysWOW64" path %path%;%windir%\SysNative;%SystemRoot%\SysWOW64;%~dp0',file=bat)
+    print('bcdedit >nul',file=bat)
+    print("if '%errorlevel%' NEQ '0' (goto UACPrompt) else (goto UACAdmin)",file=bat)
+    print(':UACPrompt',file=bat)
+    print('%1 start "" mshta vbscript:createobject("shell.application").shellexecute("""%~0""","::",,"runas",1)(window.close)&exit',file=bat)
+    print('exit /B',file=bat)
+    print(':UACAdmin',file=bat)
+    print(ml,file=bat)
+    bat.close()
+    os.system('UAC.bat')
 #检查版本并更新
 elif a==0:
     print('当前的版本：',ver)
@@ -367,7 +384,6 @@ elif a==6:
         print('复制文件...')
         filedir=r'C:\Users\%username%\AppData\Local\Microsoft\Windows\Themes'
         dir=os.getcwd()
-        print(dir)
         ml='cd '+dir
         os.system('md img')
         imgdir=dir+'\img'
@@ -375,4 +391,33 @@ elif a==6:
         os.system(ml)
         print('已完成，请到img目录下查看')
         input('按任意键返回')
+        end()
+
+elif a==7:
+    print('激活相关')
+    print('----------菜单栏----------')
+    print('1.激活Windows')
+    print('2.激活Office')
+    print('----------菜单栏----------')
+    print('输入序号来做出你的选择吧~')
+    b=int(input('请输入: '))
+    if b==1:
+        #https://blog.csdn.net/syyyy712/article/details/91350308
+        print('正在激活Windows...')
+        os.system('slmgr.vbs /upk')
+        os.system('slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX')
+        os.system('slmgr /skms zh.us.to')
+        os.system('slmgr /ato')
+        print('更改完成')
+        end()
+    if b==2:
+        #https://www.cnblogs.com/mq0036/p/11031105.html
+        path=input('请输入Office安装目录')
+        ml='cd '+path
+        os.system('cd')
+        os.system('cscript ospp.vbs /inpkey:VYBBJ-TRJPB-QFQRF-QFT4D-H3GVB')
+        os.system('cscript ospp.vbs /sethst:kms.03k.org')
+        os.system('cscript ospp.vbs /act')
+        os.system('cscript ospp.vbs /dstatus')
+        print('更改完成')
         end()
