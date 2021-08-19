@@ -9,7 +9,7 @@ import requests
 import datetime
 from dateutil import parser
 
-ver='1.5.1'
+ver='1.5.2'
 
 memu='''
 ----------菜单栏----------
@@ -55,13 +55,13 @@ def checkupdate():
         url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
         txt = requests.get(url)
         open('temp.json', 'wb').write(txt.content)
-        with open('temp.json','r') as t:
+        with open('temp.json','r',encoding='utf-8') as t:
             data=t.read()
         data2 = json.loads(data)
         newver=data2['tag_name']
         print('最新的版本是:',newver)
         if newver>ver:
-        #更新tool.py
+            #更新tool.py
             url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
             newpy = requests.get(url)
             newname = 'tool(v'+newver+').py'
@@ -72,10 +72,10 @@ def checkupdate():
             newmd = requests.get(url)
             open('readme.md', 'wb').write(newmd.content)
             print('更新readme.md完成')
-            os.remove('temp.json')
             print('更新完成')
         else:
             print('您已是最新版本，不需要升级')
+        os.remove('temp.json')
         input('更改已完成，按任意键返回')
         end()
     except:
