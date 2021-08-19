@@ -9,25 +9,22 @@ import requests
 import datetime
 from dateutil import parser
 
-ver='1.5'
+ver='1.5.1'
 
-print('欢迎使用沐の工具箱')
-print('版本',ver,' 作者:WhitemuTeam')
-print('使用前请确保您以管理员打开本程序，不然部分程序可能出现无法按预期运行的情况')
-print('----------菜单栏----------')
-print('0.检查更新')
-print('1.常见病毒攻击修复')
-print('2.收集收集蓝屏dmp文件')
-print('3.Windows Update菜单')
-print('4.自动系统扫描')
-print('5.关闭Windows Defender')
-print('6.壁纸主题相关')
-print('7.激活相关')
-print('9.退出')
-print('10.以管理员方式重启tool.py')
-print('----------菜单栏----------')
-print('输入序号来做出你的选择吧~')
-a=int(input('请输入: '))
+memu='''
+----------菜单栏----------
+0.检查更新
+1.常见病毒攻击修复
+2.收集收集蓝屏dmp文件
+3.Windows Update菜单
+4.自动系统扫描
+5.关闭Windows Defender
+6.壁纸主题相关
+7.激活相关
+9.退出
+10.以管理员方式重启tool.py
+----------菜单栏----------
+'''
 
 def end():
     dir=sys.argv[0]
@@ -35,10 +32,7 @@ def end():
     os.system('cls')
     os.system(run)
 
-if a==9:
-    sys.exit()
-
-elif a==10:
+def uac():
     bat=open('UAC.bat','w')
     dir=os.path.dirname(os.path.abspath(__file__))
     ml='py '+dir+r'\tool.py'+' & '+'del '+dir+r'\UAC.bat'
@@ -52,9 +46,9 @@ elif a==10:
     print(':UACAdmin',file=bat)
     print(ml,file=bat)
     bat.close()
-    os.system('UAC.bat')
+    os.system('UAC.bat&del UAC.bat')
 #检查版本并更新
-elif a==0:
+def checkupdate():
     print('当前的版本：',ver)
     #获取最新的版本号
     try:
@@ -66,29 +60,30 @@ elif a==0:
         data2 = json.loads(data)
         newver=data2['tag_name']
         print('最新的版本是:',newver)
+        if newver>ver:
+        #更新tool.py
+            url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
+            newpy = requests.get(url)
+            newname = 'tool(v'+newver+').py'
+            open(newname, 'wb').write(newpy.content)
+            print('已下载新版本，名称为：',newname)
+            #更新readme.md
+            url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
+            newmd = requests.get(url)
+            open('readme.md', 'wb').write(newmd.content)
+            print('更新readme.md完成')
+            os.remove('temp.json')
+            print('更新完成')
+        else:
+            print('您已是最新版本，不需要升级')
+        input('更改已完成，按任意键返回')
+        end()
     except:
         print('请检查您的网络是否可用且可以连接到Github服务器')
         input('按任意键返回')
         end()
-    if newver<=ver:
-        print('您已是最新版本，不需要升级')
-    else:
-        #更新tool.py
-        url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
-        newpy = requests.get(url)
-        newname = 'tool(v'+newver+').py'
-        open(newname, 'wb').write(newpy.content)
-        print('已下载新版本，名称为：',newname)
-        #更新readme.md
-        url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
-        newmd = requests.get(url)
-        open('readme.md', 'wb').write(newmd.content)
-        print('更新readme.md完成')
-        print('更新完成')
-    os.remove('temp.json')
-    input('更改已完成，按任意键返回')
-    end()
-elif a==1:
+
+def virus():
     print('选项：常见病毒修复')
     print('----------菜单栏----------')
     print('0.显示被隐藏的关机，重启等按钮')
@@ -118,32 +113,32 @@ elif a==1:
         win32api.RegSetValueEx(key,'value',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
         end()
-    if b==1:
+    elif b==1:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableTaskmgr',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
         end()
-    if b==2:
+    elif b==2:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'software\microsoft\windows\currentVersion\policies\system',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableRegistryTools',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
         end()
-    if b==3:
+    elif b==3:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\Policies\Microsoft\Windows\System',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisableCMD',0,win32con.REG_DWORD,0)
         input('更改已完成，按任意键返回')
         end()
-    if b==4:
+    elif b==4:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'SOFTWARE\MICROSOFT\WINDOWS\CURRENTVERSION\POLICIES\EXPLORER',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'RESTRICTRUN',0,win32con.REG_DWORD,0)
         input('重启你的电脑以应用更改')
         end()
-    if b==5:
+    elif b==5:
         key = win32api.RegOpenKey(win32con.HKEY_CURRENT_USER,'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'DisabledHotkeys',0,win32con.REG_SZ,'')
         input('重启你的电脑以应用更改')
         end()
-    if b==6:
+    elif b==6:
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\PolicyManager\current\device\Start',0, win32con.KEY_ALL_ACCESS)
         win32api.RegSetValueEx(key,'HideShutdown',0,win32con.REG_SZ,'0')
         key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\PolicyManager\default\Start\HideSleep',0, win32con.KEY_ALL_ACCESS)
@@ -175,13 +170,13 @@ elif a==1:
 
 #收集蓝屏dmp文件（https://answers.microsoft.com/zh-hans/windows/forum/all/page-fault-in-nonpaged-area/bcb7eafc-abaf-44a3-b552-d243f1b432fa）
 #你需要提前打开【控制面板】>【系统】>【高级系统设置】>【高级】>【启动和故障恢复】>【设置】>写入调试信息 > 选择【小内存转储（256KB）】>路径选择【默认】，【确定】并重启计算机
-elif a==2:
+def dmp():
     os.system('copy %SystemRoot%\minidump %systemdrive%\dmp')
     print('dmp文件已存储到系统盘下的dmp文件夹中')
     b=int(input('更改已完成，按任意键返回'))
     end()
 
-elif a==3:
+def update():
     print('Windows Update菜单')
     print('----------菜单栏----------')
     print('1.修复Windows10无法更新的问题')
@@ -212,7 +207,7 @@ elif a==3:
         os.system('netsh winsock reset')
         input('请重启你的Windows然后再次尝试更新吧~')
         end()
-    if b==2:
+    elif b==2:
         #重置 Windows 更新组件（https://docs.microsoft.com/zh-cn/windows/deployment/update/windows-update-resources）
         #停止相关服务
         os.system('net stop bits')
@@ -266,7 +261,7 @@ elif a==3:
         os.system('net start cryptsvc')
         input('更改已完成，重启你的电脑吧~')
         end()
-    if b==3:
+    elif b==3:
         #停止并禁用Windows Update服务
         #os.system('net stop wuauserv')
         #os.system('sc config wuauserv start=disabled')
@@ -282,7 +277,7 @@ elif a==3:
         end()
 
 #自动系统扫描(https://answers.microsoft.com/zh-hans/windows/forum/all/%e7%97%85%e6%af%92%e4%bf%ae%e6%94%b9%e4%ba%86/b3ef7a46-1159-404a-b629-b1af9bc8d24f)
-elif a==4:
+def systemcheck():
     os.system('Dism /Online /Cleanup-Image /CheckHealth')
     os.system('Dism /Online /Cleanup-Image /ScanHealth')
     os.system('Dism /Online /Cleanup-Image /RestoreHealth')
@@ -293,7 +288,7 @@ elif a==4:
     end()
 
 #关闭Windows Defender(https://cloud.tencent.com/developer/article/1674518)
-elif a==5:
+def defender():
     key = win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,r'SOFTWARE\Policies\Microsoft\Windows Defender',0, win32con.KEY_ALL_ACCESS)
     win32api.RegSetValueEx(key,'DisableAntiSpyware',0,win32con.REG_DWORD,1)
     win32api.RegCreateKey(key,'Real-Time Protection')
@@ -307,7 +302,7 @@ elif a==5:
     end()
 
 #壁纸相关
-elif a==6:
+def bizi():
     print('壁纸主题相关')
     print('----------菜单栏----------')
     print('0.获取今日Bing每日美图')
@@ -393,7 +388,7 @@ elif a==6:
         input('按任意键返回')
         end()
 
-elif a==7:
+def jihuo():
     print('激活相关')
     print('----------菜单栏----------')
     print('1.激活Windows')
@@ -410,7 +405,7 @@ elif a==7:
         os.system('slmgr /ato')
         print('更改完成')
         end()
-    if b==2:
+    elif b==2:
         #https://www.cnblogs.com/mq0036/p/11031105.html
         path=input('请输入Office安装目录')
         ml='cd '+path
@@ -420,4 +415,29 @@ elif a==7:
         os.system('cscript ospp.vbs /act')
         os.system('cscript ospp.vbs /dstatus')
         print('更改完成')
+        end()
+
+if __name__=='__main__':
+    print('欢迎使用沐の工具箱')
+    print('版本',ver,' 作者:WhitemuTeam')
+    print('使用前请确保您以管理员打开本程序，不然部分程序可能出现无法按预期运行的情况')
+    print(memu)
+    print('输入序号来做出你的选择吧~')
+    a=input('请输入: ')
+    switch={
+    '0':lambda:checkupdate(),
+    '1':lambda:virus(),
+    '2':lambda:dmp(),
+    '3':lambda:update(),
+    '4':lambda:systemcheck(),
+    '5':lambda:defender(),
+    '6':lambda:bizi(),
+    '7':lambda:jihuo(),
+    '9':lambda:exit(),
+    '10':lambda:uac(),
+    }
+    try:
+        switch[a]()
+    except KeyError:
+        input('您的输入有误...')
         end()
