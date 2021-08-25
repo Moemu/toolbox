@@ -9,7 +9,7 @@ import requests
 import datetime
 from dateutil import parser
 
-ver='1.5.2'
+ver='1.5.3'
 
 memu='''
 ----------菜单栏----------
@@ -54,25 +54,26 @@ def checkupdate():
     try:
         url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
         txt = requests.get(url)
-        open('temp.json', 'wb').write(txt.content)
+        open('temp.json', 'wb+').write(txt.content)
         with open('temp.json','r',encoding='utf-8') as t:
             data=t.read()
         data2 = json.loads(data)
         newver=data2['tag_name']
+        newver='1.6'
         print('最新的版本是:',newver)
         if newver>ver:
-            #更新tool.py
-            url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/tool.py'
-            newpy = requests.get(url)
-            newname = 'tool(v'+newver+').py'
-            open(newname, 'wb').write(newpy.content)
-            print('已下载新版本，名称为：',newname)
-            #更新readme.md
-            url = 'https://cdn.jsdelivr.net/gh/WhitemuTeam/toolbox/readme.md'
-            newmd = requests.get(url)
-            open('readme.md', 'wb').write(newmd.content)
-            print('更新readme.md完成')
-            print('更新完成')
+            print('获取压缩包...')
+            zip=requests.get('https://codeload.github.com/WhitemuTeam/toolbox/zip/refs/heads/main')
+            zipname='temp.zip'
+            open(zipname,'r').write(zip.content)
+            print('解压压缩包...')
+            import zipfile
+            with zipfile.ZipFile(zipname) as zf:
+                zf.extractall()
+            name='v'+newver
+            ml='ren toolbox-main '+name
+            os.system(ml)
+            os.remove(zipname)
         else:
             print('您已是最新版本，不需要升级')
         os.remove('temp.json')
