@@ -20,9 +20,15 @@
 
 激活Windows10和Office（未测试）
 
+查询Windows激活状态和您的激活密钥
+
 检查更新并获取最新的沐の工具箱
 
 支持以管理员模式重启tool.py
+
+支持退出时自动删除目录下的__pycache__文件夹（需要从程序中退出）
+
+可修复部分运行库（dx9,vc全家桶,Microsoft.Net修复）（对Windows10可能无效）
 
 ## 使用
 
@@ -30,10 +36,11 @@
 
 Python环境（[点我跳转](www.python.org)）
 
-安装库
+安装库，或运行main.py后自动安装
 
 ```powershell
 pip install pypiwin32
+pip install requests
 ```
 
 ### 使用
@@ -41,7 +48,7 @@ pip install pypiwin32
 下载源码后以管理员方式打开cmd，输入（路径可填，最好在源码根目录打开带管理员模式的cmd或使用cd指令）：
 
 ```powershell
-py tool.py
+py main.py
 ```
 
 ## 注意
@@ -58,4 +65,4 @@ py tool.py
 
 作者：WhitemuTeam
 
-版本：1.5
+版本：2.0（源1.6版本）

@@ -1,30 +1,18 @@
+ # -*- coding: UTF-8 -*-
 #By WhitemuTeam
-#请使用管理员方式运行此程序
+#如果您更新后不能打开tool.py，请至仓库页下载最新的工具箱
 import os
 import sys
 import win32api
 import win32con
 import json
-import requests
+import requests as r
 import datetime
-from dateutil import parser
+import zipfile
 
-ver='1.5.3'
-
-memu='''
-----------菜单栏----------
-0.检查更新
-1.常见病毒攻击修复
-2.收集收集蓝屏dmp文件
-3.Windows Update菜单
-4.自动系统扫描
-5.关闭Windows Defender
-6.壁纸主题相关
-7.激活相关
-9.退出
-10.以管理员方式重启tool.py
-----------菜单栏----------
-'''
+def dexit():
+    os.system('rd /S /Q __pycache__')
+    exit()
 
 def end():
     dir=sys.argv[0]
@@ -35,7 +23,7 @@ def end():
 def uac():
     bat=open('UAC.bat','w')
     dir=os.path.dirname(os.path.abspath(__file__))
-    ml='py '+dir+r'\tool.py'+' & '+'del '+dir+r'\UAC.bat'
+    ml='py '+dir+r'\main.py'+' & '+'del '+dir+r'\UAC.bat'
     print('@echo off',file=bat)
     print('if exist "%SystemRoot%\SysWOW64" path %path%;%windir%\SysNative;%SystemRoot%\SysWOW64;%~dp0',file=bat)
     print('bcdedit >nul',file=bat)
@@ -48,12 +36,12 @@ def uac():
     bat.close()
     os.system('UAC.bat&del UAC.bat')
 #检查版本并更新
-def checkupdate():
+def checkupdate(ver):
     print('当前的版本：',ver)
     #获取最新的版本号
     try:
         url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
-        txt = requests.get(url)
+        txt = r.get(url)
         open('temp.json', 'wb+').write(txt.content)
         with open('temp.json','r',encoding='utf-8') as t:
             data=t.read()
@@ -63,11 +51,10 @@ def checkupdate():
         print('最新的版本是:',newver)
         if newver>ver:
             print('获取压缩包...')
-            zip=requests.get('https://codeload.github.com/WhitemuTeam/toolbox/zip/refs/heads/main')
+            zip=r.get('https://codeload.github.com/WhitemuTeam/toolbox/zip/refs/heads/main')
             zipname='temp.zip'
             open(zipname,'r').write(zip.content)
             print('解压压缩包...')
-            import zipfile
             with zipfile.ZipFile(zipname) as zf:
                 zf.extractall()
             name='v'+newver
@@ -321,7 +308,7 @@ def bizi():
         realtime = time.strftime("%Y-%m-%d")
         print('今天是:',realtime)
         print('获取中...')
-        img = requests.get('https://bing.mcloc.cn/api')
+        img = r.get('https://bing.mcloc.cn/api')
         name = 'Bing('+realtime+').jpg'
         open(name, 'wb').write(img.content)
         input('获取成功，按任意键退出')
@@ -394,6 +381,8 @@ def jihuo():
     print('----------菜单栏----------')
     print('1.激活Windows')
     print('2.激活Office')
+    print('3.查看Windows激活情况')
+    print('4.查看Windows激活密钥')
     print('----------菜单栏----------')
     print('输入序号来做出你的选择吧~')
     b=int(input('请输入: '))
@@ -417,28 +406,70 @@ def jihuo():
         os.system('cscript ospp.vbs /dstatus')
         print('更改完成')
         end()
-
-if __name__=='__main__':
-    print('欢迎使用沐の工具箱')
-    print('版本',ver,' 作者:WhitemuTeam')
-    print('使用前请确保您以管理员打开本程序，不然部分程序可能出现无法按预期运行的情况')
-    print(memu)
-    print('输入序号来做出你的选择吧~')
-    a=input('请输入: ')
-    switch={
-    '0':lambda:checkupdate(),
-    '1':lambda:virus(),
-    '2':lambda:dmp(),
-    '3':lambda:update(),
-    '4':lambda:systemcheck(),
-    '5':lambda:defender(),
-    '6':lambda:bizi(),
-    '7':lambda:jihuo(),
-    '9':lambda:exit(),
-    '10':lambda:uac(),
-    }
-    try:
-        switch[a]()
-    except KeyError:
-        input('您的输入有误...')
+    elif b==3:
+        os.system('slmgr /dlv')
+        print('请等待弹出窗口')
         end()
+    elif b==4:
+        key=win32api.RegOpenKey(win32con.HKEY_LOCAL_MACHINE,'SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform',0, win32con.KEY_ALL_ACCESS)
+        keyvalue=win32api.RegQueryValueEx(key,'BackupProductKeyDefault')
+        print('您的激活密钥为:',keyvalue[0])
+        end()
+
+def runtime():
+    print('常见运行库修复')
+    print('----------菜单栏----------')
+    print('1.dx修复')
+    print('2.vc全家桶修复')
+    print('3.Microsoft.Net Framework修复')
+    print('4.我全都要！')
+    print('5.查看修复说明')
+    print('----------菜单栏----------')
+    print('输入序号来做出你的选择吧~')
+    b=int(input('请输入:'))
+    def installer(url,name):
+        try:
+            print('下载中....')
+            exe=r.get(url)
+            open(name,'wb+').write(exe.content)
+            ml=name
+            os.system(ml)
+            print(name,'安装程序已经启动')
+            input('安装结束后，按任意键继续')
+            os.remove(name)
+        except:
+            print('请检查您是否已经联网或者是开启代理模式')
+    def dx():
+        installer('https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/dx/dxwebsetup.exe','dxwebsetup.exe')
+    def vc():
+        import platform
+        ver=platform.architecture()[0]
+        year=['2005','2008','2010','2012','2013','2015','2017','2019']
+        if ver=='64bit':
+            for i in year:
+                exename='vcredist_x64_'+i+'.exe'
+                url='https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/vc/64/'+exename
+                installer(url,exename)
+        else:
+            for i in year:
+                exename='vcredist_x86_'+i
+                url='https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/vc/86/'+exename
+                installer(url,exename)
+    def net():
+        installer('https://go.microsoft.com/fwlink/?linkid=2088631','4.8.exe')
+    if b==1:
+        dx()
+    elif b==2:
+        vc()
+    elif b==3:
+        net()
+    elif b==4:
+        dx()
+        vc()
+        net()
+    elif b==5:
+        txt=r.get('https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/runtime.txt')
+        print(txt)
+    else:
+        print('您的输入有误，请重新输入...')
+    end()
