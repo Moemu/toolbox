@@ -47,7 +47,6 @@ def checkupdate(ver):
             data=t.read()
         data2 = json.loads(data)
         newver=data2['tag_name']
-        newver='1.6'
         print('最新的版本是:',newver)
         if newver>ver:
             print('获取压缩包...')
