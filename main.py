@@ -10,7 +10,7 @@ except:
     os.system('pip install requests')
     from tool import *
 
-ver='2.0'
+ver='2.1'
 
 memu='''
 ----------菜单栏----------

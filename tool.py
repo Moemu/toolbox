@@ -297,6 +297,7 @@ def bizi():
     print('2.获取当前桌面壁纸')
     print('3.获取全部Windows10自带壁纸')
     print('4.获取主题文件（含壁纸）')
+    print('5.获取5张Edge起始页背景')
     print('----------菜单栏----------')
     print('输入序号来做出你的选择吧~')
     b=int(input('请输入: '))
@@ -373,6 +374,56 @@ def bizi():
         os.system(ml)
         print('已完成，请到img目录下查看')
         input('按任意键返回')
+        end()
+    if b==5:
+        try:
+            os.mkdir('img')
+        except:
+            pass
+        os.chdir('img')
+        def get_edge_img():
+            #爬虫前的准备
+            url='https://arc.msn.com/v4/api/selection?nct=1&fmt=json&nocookie=1&locale=zh-cn&country=CN&muid=3C9A233922D8664839573346239B67C8&bcnt=1&placement=88000244&AREF=2&ACHANNEL=4&ABUILD=94.0.4606.71&clr=esdk&edgeid=5675470558164028553&ISU=0&ADEFAB=13&devosver=10.0.19044.1266&OPSYS=WIN10&APRIMB=0&poptin=1&UITHEME=dark&pageConfig=163&asid=270f80476f1945d0f9ac72ef3c681212'
+            headers={'User-Agent':'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36'}
+            try:
+                with open('information.txt','r') as f:
+                    sens=f.readlines()
+            except:
+                pass
+            #获取数据
+            data=r.get(url,headers=headers).text
+            #提取数据
+            data=json.loads(data)['batchrsp']['items'][0]['item']
+            ad=json.loads(data)['ad']
+            hs=ad['hs'][0]
+            title=ad['title']
+            url=ad['LANDSCAPE']
+            ititle=hs['title']
+            text=hs['text']
+            sen=title+': '+ititle+'->'+text+'\n'
+            try:
+                if sen in sens:
+                    get_edge_img()
+                    return None
+            except:
+                pass
+            #获取图片
+            img=r.get(url,headers=headers)
+            name=title+'.jpg'
+            open(name,'wb+').write(img.content)
+            with open('information.txt','a') as f:
+                f.write(sen)
+            print('获取：',title,'...完成')
+        while True:
+            for i in range(5):
+                get_edge_img()
+            a=str(input('输入Y继续,输入其他退出：'))
+            if a!='Y' and a!='y':
+                print('感谢您的使用，获取到的图片在img目录中\ninformation.txt为图片的信息')
+                break
+            else:
+                pass
+        os.chdir('..')
         end()
 
 def jihuo():
