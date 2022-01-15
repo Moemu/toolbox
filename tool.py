@@ -52,7 +52,7 @@ def checkupdate(ver):
             print('获取压缩包...')
             zip=r.get('https://codeload.github.com/Moemu/toolbox/zip/refs/heads/main')
             zipname='temp.zip'
-            open(zipname,'r').write(zip.content)
+            open(zipname,'wb').write(zip.content)
             print('解压压缩包...')
             with zipfile.ZipFile(zipname) as zf:
                 zf.extractall()
@@ -60,6 +60,7 @@ def checkupdate(ver):
             ml='ren toolbox-main '+name
             os.system(ml)
             os.remove(zipname)
+            print('完成，已在根目录创建了新版本的文件夹')
         else:
             print('您已是最新版本，不需要升级')
         os.remove('temp.json')
