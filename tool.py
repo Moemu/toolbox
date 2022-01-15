@@ -1,5 +1,5 @@
  # -*- coding: UTF-8 -*-
-#By WhitemuTeam
+#By Moemu
 #如果您更新后不能打开tool.py，请至仓库页下载最新的工具箱
 import os
 import sys
@@ -40,7 +40,7 @@ def checkupdate(ver):
     print('当前的版本：',ver)
     #获取最新的版本号
     try:
-        url = 'https://api.github.com/repos/WhitemuTeam/toolbox/releases/latest'
+        url = 'https://api.github.com/repos/Moemu/toolbox/releases/latest'
         txt = r.get(url)
         open('temp.json', 'wb+').write(txt.content)
         with open('temp.json','r',encoding='utf-8') as t:
@@ -50,7 +50,7 @@ def checkupdate(ver):
         print('最新的版本是:',newver)
         if newver>ver:
             print('获取压缩包...')
-            zip=r.get('https://codeload.github.com/WhitemuTeam/toolbox/zip/refs/heads/main')
+            zip=r.get('https://codeload.github.com/Moemu/toolbox/zip/refs/heads/main')
             zipname='temp.zip'
             open(zipname,'r').write(zip.content)
             print('解压压缩包...')
@@ -303,7 +303,7 @@ def bizi():
     b=int(input('请输入: '))
     if b==0:
         print('获取今日Bing每日美图...')
-        print('源码参考：WhitemuTeam/GetBingImg')
+        print('源码参考：Moemu/GetBingImg')
         time = datetime.datetime.now()
         realtime = time.strftime("%Y-%m-%d")
         print('今天是:',realtime)
@@ -490,7 +490,7 @@ def runtime():
         except:
             print('请检查您是否已经联网或者是开启代理模式')
     def dx():
-        installer('https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/dx/dxwebsetup.exe','dxwebsetup.exe')
+        installer('https://cdn.jsdelivr.net/gh/Moemu/Toolbox-online/dx/dxwebsetup.exe','dxwebsetup.exe')
     def vc():
         import platform
         ver=platform.architecture()[0]
@@ -498,12 +498,12 @@ def runtime():
         if ver=='64bit':
             for i in year:
                 exename='vcredist_x64_'+i+'.exe'
-                url='https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/vc/64/'+exename
+                url='https://cdn.jsdelivr.net/gh/Moemu/Toolbox-online/vc/64/'+exename
                 installer(url,exename)
         else:
             for i in year:
                 exename='vcredist_x86_'+i
-                url='https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/vc/86/'+exename
+                url='https://cdn.jsdelivr.net/gh/Moemu/Toolbox-online/vc/86/'+exename
                 installer(url,exename)
     def net():
         installer('https://go.microsoft.com/fwlink/?linkid=2088631','4.8.exe')
@@ -518,7 +518,7 @@ def runtime():
         vc()
         net()
     elif b==5:
-        txt=r.get('https://cdn.jsdelivr.net/gh/WhitemuTeam/Toolbox-online/runtime.txt')
+        txt=r.get('https://cdn.jsdelivr.net/gh/Moemu/Toolbox-online/runtime.txt')
         print(txt)
     else:
         print('您的输入有误，请重新输入...')

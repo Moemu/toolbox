@@ -1,0 +1,143 @@
+; Copyright © Microsoft Corp.
+
+[Theme]
+; Windows - IDS_THEME_DISPLAYNAME_AERO
+DisplayName=ãå¤ÎÐÂÖ÷Ìâ
+ThemeId={E15392D5-C33D-4AB5-B09E-B1EB27804881}
+
+; Computer - SHIDI_SERVER
+[CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-109
+
+; UsersFiles - SHIDI_USERFILES
+[CLSID\{59031A47-3F72-44A7-89C5-5595FE6B30EE}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-123
+
+; Network - SHIDI_MYNETWORK
+[CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon]
+DefaultValue=%SystemRoot%\System32\imageres.dll,-25
+
+; Recycle Bin - SHIDI_RECYCLERFULL SHIDI_RECYCLER
+[CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\DefaultIcon]
+Full=%SystemRoot%\System32\imageres.dll,-54
+Empty=%SystemRoot%\System32\imageres.dll,-55
+
+[Control Panel\Cursors]
+AppStarting=%SystemRoot%\Cursors\HuiRan Blue Middle\ºóÌ¨ÔËÐÐ.ani
+Arrow=%SystemRoot%\Cursors\HuiRan Blue Middle\Õý³£Ñ¡Ôñ.cur
+Crosshair=%SystemRoot%\Cursors\HuiRan Blue Middle\¾«È·Ñ¡Ôñ.cur
+Hand=%SystemRoot%\Cursors\HuiRan Blue Middle\Á´½Ó.cur
+Help=%SystemRoot%\Cursors\HuiRan Blue Middle\°ïÖúÑ¡Ôñ.cur
+IBeam=%SystemRoot%\Cursors\HuiRan Blue Middle\ÎÄ±¾Ñ¡Ôñ.cur
+No=%SystemRoot%\Cursors\HuiRan Blue Middle\²»¿ÉÓÃ.cur
+NWPen=%SystemRoot%\Cursors\HuiRan Blue Middle\ÊÖÐ´.cur
+SizeAll=%SystemRoot%\Cursors\HuiRan Blue Middle\ÒÆ¶¯.cur
+SizeNESW=%SystemRoot%\Cursors\HuiRan Blue Middle\¶Ô½Ç02.cur
+SizeNS=%SystemRoot%\Cursors\HuiRan Blue Middle\´¹Ö±.cur
+SizeNWSE=%SystemRoot%\Cursors\HuiRan Blue Middle\¶Ô½Ç01.cur
+SizeWE=%SystemRoot%\Cursors\HuiRan Blue Middle\Ë®Æ½.cur
+UpArrow=%SystemRoot%\Cursors\HuiRan Blue Middle\ºòÑ¡.cur
+Wait=%SystemRoot%\Cursors\HuiRan Blue Middle\Ã¦.ani
+DefaultValue=HuiRan Blue Middle
+
+[Control Panel\Desktop]
+Wallpaper=E:\mu\±ÚÖ½\ºó¹¬\87705617.jpg
+Pattern=
+MultimonBackgrounds=0
+PicturePosition=4
+WallpaperWriteTime=132775811755885615
+
+[VisualStyles]
+Path=%SystemRoot%\resources\themes\Aero\Aero.msstyles
+ColorStyle=NormalColor
+Size=NormalSize
+AutoColorization=0
+ColorizationColor=0XC4FCFCFC
+SystemMode=Dark
+AppMode=Dark
+VisualStyleVersion=10
+
+
+[MasterThemeSelector]
+MTSM=RJSPBS
+
+[Sounds]
+; IDS_SCHEME_DEFAULT
+SchemeName=@mmres.dll,-800
+
+[Control Panel\Desktop.A]
+Wallpaper=E:\mu\±ÚÖ½\ºó¹¬\87705617.jpg
+[Control Panel\Desktop.W]
+Wallpaper=E:+AFw-mu+AFxYwX64AFxUDlurAFw-87705617.jpg
+[Control Panel\Cursors.A]
+Arrow=%SystemRoot%\Cursors\HuiRan Blue Middle\Õý³£Ñ¡Ôñ.cur
+Help=%SystemRoot%\Cursors\HuiRan Blue Middle\°ïÖúÑ¡Ôñ.cur
+Hand=%SystemRoot%\Cursors\HuiRan Blue Middle\Á´½Ó.cur
+AppStarting=%SystemRoot%\Cursors\HuiRan Blue Middle\ºóÌ¨ÔËÐÐ.ani
+Wait=%SystemRoot%\Cursors\HuiRan Blue Middle\Ã¦.ani
+NWPen=%SystemRoot%\Cursors\HuiRan Blue Middle\ÊÖÐ´.cur
+No=%SystemRoot%\Cursors\HuiRan Blue Middle\²»¿ÉÓÃ.cur
+SizeNS=%SystemRoot%\Cursors\HuiRan Blue Middle\´¹Ö±.cur
+SizeWE=%SystemRoot%\Cursors\HuiRan Blue Middle\Ë®Æ½.cur
+Crosshair=%SystemRoot%\Cursors\HuiRan Blue Middle\¾«È·Ñ¡Ôñ.cur
+IBeam=%SystemRoot%\Cursors\HuiRan Blue Middle\ÎÄ±¾Ñ¡Ôñ.cur
+SizeNWSE=%SystemRoot%\Cursors\HuiRan Blue Middle\¶Ô½Ç01.cur
+SizeNESW=%SystemRoot%\Cursors\HuiRan Blue Middle\¶Ô½Ç02.cur
+SizeAll=%SystemRoot%\Cursors\HuiRan Blue Middle\ÒÆ¶¯.cur
+UpArrow=%SystemRoot%\Cursors\HuiRan Blue Middle\ºòÑ¡.cur
+[Control Panel\Cursors.W]
+DefaultValue=Windows +ntiLpA-
+Arrow=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxrY144kAli6Q-.cur
+Help=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxeLlKpkAli6Q-.cur
+Hand=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFyU/mOl-.cur
+AppStarting=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxUDlPwj9CITA-.ani
+Wait=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxf2Q-.ani
+NWPen=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxiS1GZ-.cur
+No=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxODVPvdSg-.cur
+SizeNS=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxXgnb0-.cur
+SizeWE=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxsNF5z-.cur
+Crosshair=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFx8vnhukAli6Q-.cur
+IBeam=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxlh2cskAli6Q-.cur
+SizeNWSE=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxb+YnS-01.cur
+SizeNESW=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxb+YnS-02.cur
+SizeAll=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFx5+1Ko-.cur
+UpArrow=+ACU-SystemRoot+ACUAXA-Cursors+AFw-HuiRan Blue Middle+AFxQGZAJ-.cur
+[Theme.A]
+DisplayName=ãå¤ÎÐÂÖ÷Ìâ
+[Theme.W]
+DisplayName=+bJAwbmWwTjuYmA-
+[Sounds.A]
+[Sounds.W]
+SchemeName=Windows +ntiLpA-
+[Control Panel\Colors]
+Scrollbar=200 200 200
+Background=0 0 0
+ActiveTitle=153 180 209
+InactiveTitle=191 205 219
+Menu=249 249 249
+Window=255 255 255
+WindowFrame=100 100 100
+MenuText=0 0 0
+WindowText=0 0 0
+TitleText=0 0 0
+ActiveBorder=180 180 180
+InactiveBorder=244 247 252
+AppWorkspace=171 171 171
+Hilight=0 120 212
+HilightText=255 255 255
+ButtonFace=240 240 240
+ButtonShadow=160 160 160
+GrayText=109 109 109
+ButtonText=0 0 0
+InactiveTitleText=0 0 0
+ButtonHilight=255 255 255
+ButtonDkShadow=105 105 105
+ButtonLight=227 227 227
+InfoText=0 0 0
+InfoWindow=255 255 225
+ButtonAlternateFace=0 0 0
+HotTrackingColor=0 103 192
+GradientActiveTitle=185 209 234
+GradientInactiveTitle=215 228 242
+MenuHilight=0 120 212
+MenuBar=240 240 240
